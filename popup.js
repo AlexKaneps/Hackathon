@@ -24,7 +24,10 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 const encodedParams = new URLSearchParams();
-encodedParams.append("symbol", "AAPL");
+const stockInput = document.getElementById('exampleFormControlInput1').value;
+console.log(stockInput);
+document.getElementById("stockName").innerText = stockInput;
+encodedParams.append("symbol", stockInput);
 
 const options = {
 	method: 'POST',
@@ -39,14 +42,14 @@ const options = {
 // either event listner for a button to refresh, or settTimeout for every x minutes
 fetch('https://yahoo-finance97.p.rapidapi.com/stock-info', options)
 	.then(response => response.json())
-	.then(response => console.log(response['data']['currentPrice']
+	.then(response => {
+	// select specific id that corresponds to our value
+    // .InnerText(value)
+    document.getElementById("currentPrice").innerText = response['data']['currentPrice'].toFixed(2)
+    document.getElementById("dayHigh").innerText = response['data']['dayHigh'].toFixed(2)
+    document.getElementById("dayLow").innerText = response['data']['dayLow'].toFixed(2)
     
     
-    ))
-	.catch(err => console.error(err));
-
-    // here
-    // create element
-    // append
-    // blabla
+    })
+	.catch(err => console.error('You have entered the wrong ticker, please try again'));
 })
